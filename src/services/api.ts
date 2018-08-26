@@ -1,32 +1,54 @@
 import { Observable,  } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
-import { pluck } from 'rxjs/operators'
-
-export interface Name {
-  title: string
-  first: string
-  last: string
-}
-
-export interface Picture {
-  large: string
-  medium: string
-  thumbnail: string
-}
 
 export interface User {
-  name: Name
-  picture: Picture
+  id: number
+  name: string
+  username: string
+  email: string
+  address: {
+    street: string
+    suite: string
+    city: string
+    zipcode: string
+    geo: {
+      lat: number
+      lng: number
+    }
+  }
+  phone: string
+  website: string
+  company: {
+    name: string
+    catchPhrase: string
+    bs: string
+  }
 }
 
-export interface Result {
-  results: User[]
+export interface Post {
+  id: number
+  userId: number
+  title: string
+  body: string
+  comments: Comment[]
+}
+
+export interface Comment {
+  id: number
+  postId: number
+  name: string
+  email: string
+  body: string
 }
 
 export default {
   fetchUsers(): Observable<User[]> {
-    return ajax.getJSON<Result>('https://randomuser.me/api/?results=10').pipe(
-      pluck('results')
-    )
-  }
+    return ajax.getJSON<User[]>('https://jsonplaceholder.typicode.com/users')
+  },
+  fetchPosts(): Observable<Post[]> {
+    return ajax.getJSON<Post[]>('https://jsonplaceholder.typicode.com/posts')
+  },
+  fetchCommentsOfPost(postId: number): Observable<Comment[]> {
+    return ajax.getJSON<Comment[]>(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
+  },
 }

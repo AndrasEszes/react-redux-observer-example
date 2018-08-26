@@ -34,8 +34,8 @@ class Users extends React.Component<Props> {
       <ul>
         {
           users.map(user => (
-            <li key={user.name.first + user.name.last}>
-              <span>{`${user.name.title} ${user.name.first} ${user.name.last}`}</span>
+            <li key={user.id}>
+              <span>{user.name}</span>
             </li>
           ))
         }

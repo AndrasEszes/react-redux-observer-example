@@ -1,3 +1,1 @@
-import Users from './components/Users'
-
-export default Users
+export { default } from './components/Users'
